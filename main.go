@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 )
 
@@ -82,23 +83,24 @@ func UpdateCloudflareRecord(targetRecord, ipAddress string) error {
 	records, err := api.DNSRecords(id, cloudflare.DNSRecord{})
 
 	if err != nil {
-		logrus.Error("Couldn't get DNS records")
-		logrus.Error(err)
 		return err
 	}
 
+	var recordValues []string
+
 	for _, record := range records {
+		recordValues = append(recordValues, record.Name)
 		if record.Name == targetRecord {
 			record.Content = ipAddress
 			err := api.UpdateDNSRecord(id, record.ID, record)
 			if err != nil {
-				return errors.New("Failed to update DNS record")
+				return err
 			}
 			return nil
 		}
 	}
 
-	return errors.New(fmt.Sprintf("Couldn't find target record. Choices are: %s", records))
+	return errors.New(fmt.Sprintf("Couldn't find target record. Options are: %s", strings.Join(recordValues, ", ")))
 }
 
 func getIPv4() (string, error) {
