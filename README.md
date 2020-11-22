@@ -1,9 +1,13 @@
-### Cloudflare Updater
+## Cloudflare Updater
 Update a Cloudflare record each time the external IP address changes.
 
-Easy to configure, lightweight, runs within a docker container.
+### Features
+* Runs in a Docker container
+* Easy to configure
+* Lightweight
+* Built-in cronjob that runs every minute
 
-#### Usage
+### Usage
 1. Clone this repo
     ```
     git clone https://github.com/AddilAfzal/cloudflare-updater
@@ -14,7 +18,7 @@ Easy to configure, lightweight, runs within a docker container.
     docker build . -t cloudflare-updater
     ```
 
-3. Create the container
+3. Create a container
     
     ```
     docker create --name="cloudflare-updater" cloudflare-updater \
@@ -34,5 +38,5 @@ Easy to configure, lightweight, runs within a docker container.
     docker start cloudflare-updater
     ```
   
-#### Notes
+### Notes
 Only supports IPv4 for now.
