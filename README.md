@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## Cloudflare Updater
 Update a Cloudflare record each time the external IP address changes.
 
