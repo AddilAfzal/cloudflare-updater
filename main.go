@@ -8,6 +8,7 @@ import (
 	"github.com/robfig/cron"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -45,6 +46,7 @@ func main() {
 		currentIPv4, err := getIPv4()
 		if err != nil {
 			logrus.Errorf("Couldn't get current IP")
+			logrus.Error(err)
 			return
 		}
 
@@ -111,5 +113,10 @@ func getIPv4() (string, error) {
 	defer resp.Body.Close()
 
 	body, _ := ioutil.ReadAll(resp.Body)
+
+	if net.ParseIP(string(body)) == nil {
+		return "", errors.New(fmt.Sprintf("Invalid IP Address: %s\n", string(body)))
+	}
+
 	return string(body), nil
 }
